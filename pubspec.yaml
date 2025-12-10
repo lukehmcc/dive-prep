@@ -1,0 +1,28 @@
+name: dive_prep
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.1
+  dio: ^5.9.0
+  background_downloader: ^8.2.0
+  path_provider: ^2.1.2
+  permission_handler: ^11.3.0
+  intl: ^0.19.0 # For formatting file sizes
+  shared_preferences: ^2.2.2
+  open_file_plus: ^3.3.0 # To open the video file
+  url_launcher: ^6.2.5   # Helper for some path actions
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+flutter:
+  uses-material-design: true
