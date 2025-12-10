@@ -8,7 +8,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.1.1
   dio: ^5.9.0
   background_downloader: ^8.2.0
   path_provider: ^2.1.2
@@ -17,6 +16,8 @@ dependencies:
   shared_preferences: ^2.2.2
   open_file_plus: ^3.3.0 # To open the video file
   url_launcher: ^6.2.5   # Helper for some path actions
+  flutter_bloc: ^8.1.3
+  equatable: ^2.0.5 # Optional, but helps with state comparison
 
   cupertino_icons: ^1.0.8
 
