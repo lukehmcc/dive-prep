@@ -1,16 +1,15 @@
 # dive_prep
 
-A new Flutter project.
+I always was bothered that Jellyfin didn't support transcoded downloads. So I
+built a little app as a stopgap until they actually build this out in the real
+app.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Flutter application.
+```
+git clone https://github.com/lukehmcc/dive-prep.git
+cd dive-prop
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+It should work on all platforms. But file a PR if you have an issue.
