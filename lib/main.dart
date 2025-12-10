@@ -23,13 +23,13 @@ void main() async {
         BlocProvider(create: (_) => AuthCubit(authService)..checkSession()),
         BlocProvider(create: (_) => DownloadCubit(downloadService)),
       ],
-      child: const JellyfinDownloaderApp(),
+      child: const DivePrepApp(),
     ),
   );
 }
 
-class JellyfinDownloaderApp extends StatelessWidget {
-  const JellyfinDownloaderApp({super.key});
+class DivePrepApp extends StatelessWidget {
+  const DivePrepApp({super.key});
 
   @override
   Widget build(BuildContext context) {
