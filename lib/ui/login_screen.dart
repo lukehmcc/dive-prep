@@ -15,7 +15,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passCtrl = TextEditingController();
 
   void _handleLogin() {
-    context.read<AuthCubit>().login(_urlCtrl.text, _userCtrl.text, _passCtrl.text);
+    context.read<AuthCubit>().login(
+      _urlCtrl.text,
+      _userCtrl.text,
+      _passCtrl.text,
+    );
   }
 
   @override
@@ -24,7 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         child: Container(
@@ -36,34 +42,76 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Column(
-                     mainAxisSize: MainAxisSize.min,
-                     children: [
-                       const Icon(Icons.download_for_offline, size: 64, color: Colors.teal),
-                       const SizedBox(height: 24),
-                       const Text("Jellyfin Access", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                       const SizedBox(height: 32),
-                       TextField(controller: _urlCtrl, decoration: const InputDecoration(labelText: "Server URL", border: OutlineInputBorder(), prefixIcon: Icon(Icons.link))),
-                       const SizedBox(height: 16),
-                       TextField(controller: _userCtrl, decoration: const InputDecoration(labelText: "Username", border: OutlineInputBorder(), prefixIcon: Icon(Icons.person))),
-                       const SizedBox(height: 16),
-                       TextField(controller: _passCtrl, obscureText: true, decoration: const InputDecoration(labelText: "Password", border: OutlineInputBorder(), prefixIcon: Icon(Icons.lock))),
-                       const SizedBox(height: 24),
-                       BlocBuilder<AuthCubit, AuthState>(
-                         builder: (context, state) {
-                           if (state is AuthLoading) return const CircularProgressIndicator();
-                           return SizedBox(
-                             width: double.infinity,
-                             child: FilledButton(onPressed: _handleLogin, child: const Text("Connect")),
-                           );
-                         },
-                       )
-                     ],
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width < 360
+                  ? double.infinity
+                  : MediaQuery.of(context).size.width * 0.8,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.download_for_offline,
+                          size: 64,
+                          color: Colors.teal,
+                        ),
+                        const SizedBox(height: 24),
+                        const Text(
+                          "Jellyfin Access",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        TextField(
+                          controller: _urlCtrl,
+                          decoration: const InputDecoration(
+                            labelText: "Server URL",
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.link),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: _userCtrl,
+                          decoration: const InputDecoration(
+                            labelText: "Username",
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: _passCtrl,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            labelText: "Password",
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.lock),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        BlocBuilder<AuthCubit, AuthState>(
+                          builder: (context, state) {
+                            if (state is AuthLoading) {
+                              return const CircularProgressIndicator();
+                            }
+                            return SizedBox(
+                              width: double.infinity,
+                              child: FilledButton(
+                                onPressed: _handleLogin,
+                                child: const Text("Connect"),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

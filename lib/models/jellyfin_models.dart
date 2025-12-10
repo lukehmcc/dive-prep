@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
 
 class JellyfinItem {
@@ -8,7 +9,7 @@ class JellyfinItem {
   final int? indexNumber;
   final int? runTimeTicks;
   final String? container;
-  final int? size; // <--- ADDED THIS
+  final int? size;
 
   JellyfinItem({
     required this.id,
@@ -18,18 +19,18 @@ class JellyfinItem {
     this.indexNumber,
     this.runTimeTicks,
     this.container,
-    this.size, // <--- ADDED THIS
+    this.size,
   });
 
   factory JellyfinItem.fromJson(Map<String, dynamic> json) {
     String? container;
-    int? size; // <--- ADDED THIS
+    int? size;
     
     if (json['MediaSources'] != null) {
       final list = json['MediaSources'] as List;
       if (list.isNotEmpty) {
         container = list[0]['Container'];
-        size = list[0]['Size']; // <--- Capture Size
+        size = list[0]['Size'];
       }
     }
 
@@ -41,7 +42,7 @@ class JellyfinItem {
       indexNumber: json['IndexNumber'],
       runTimeTicks: json['RunTimeTicks'],
       container: container,
-      size: size, // <--- Map it
+      size: size,
     );
   }
 }
@@ -84,7 +85,7 @@ class QualityProfile {
   QualityProfile(this.label, this.bitrate, {this.width});
 }
 
-// Download Related Models
+// --- UPDATED DOWNLOAD MODELS FOR PERSISTENCE ---
 
 enum TaskStatus { enqueued, running, paused, failed, complete }
 
@@ -100,6 +101,29 @@ class DownloadTask {
     required this.filename,
     required this.metaData,
   });
+
+  // Convert to Map for saving
+  Map<String, dynamic> toMap() {
+    return {
+      'taskId': taskId,
+      'url': url,
+      'filename': filename,
+      'metaData': metaData,
+    };
+  }
+
+  // Load from Map
+  factory DownloadTask.fromMap(Map<String, dynamic> map) {
+    return DownloadTask(
+      taskId: map['taskId'] ?? '',
+      url: map['url'] ?? '',
+      filename: map['filename'] ?? '',
+      metaData: map['metaData'] ?? '',
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+  factory DownloadTask.fromJson(String source) => DownloadTask.fromMap(json.decode(source));
 }
 
 class TaskRecord {
@@ -127,4 +151,25 @@ class TaskRecord {
       speed: speed ?? this.speed,
     );
   }
+
+  // Serialize Record
+  Map<String, dynamic> toMap() {
+    return {
+      'task': task.toMap(),
+      'status': status.index, // Save enum index
+      'progress': progress,
+    };
+  }
+
+  factory TaskRecord.fromMap(Map<String, dynamic> map) {
+    return TaskRecord(
+      task: DownloadTask.fromMap(map['task']),
+      status: TaskStatus.values[map['status'] ?? 0],
+      progress: map['progress'] ?? 0.0,
+      speed: '', // Don't save speed, it's transient
+    );
+  }
+  
+  String toJson() => json.encode(toMap());
+  factory TaskRecord.fromJson(String source) => TaskRecord.fromMap(json.decode(source));
 }
