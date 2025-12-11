@@ -2,7 +2,6 @@
 
 <p align="center">
   <img src="static/logo.svg" width="30%">
-  <i>dive-prep</i>
 </p>
 
 <img src="static/Screenshot1.png" width="49%"> <img src="static/Screenshot2.png" width="49%">
