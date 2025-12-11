@@ -4,6 +4,8 @@
   <img src="static/logo.svg" width="30%">
 </p>
 
+<i>dive-prep</i>
+
 <img src="static/Screenshot1.png" width="49%"> <img src="static/Screenshot2.png" width="49%">
 
 I always was bothered that Jellyfin didn't support transcoded downloads. So I
