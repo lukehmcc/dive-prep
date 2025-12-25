@@ -25,5 +25,21 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  icons_launcher: ^3.0.3
+
+icons_launcher:
+  image_path: "static/logo.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+    linux:
+      enable: true
+    windows: 
+      enable: true
+    macos: 
+      enable: true
+
 flutter:
   uses-material-design: true
