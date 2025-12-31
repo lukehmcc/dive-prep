@@ -10,15 +10,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _urlCtrl = TextEditingController(text: "http://");
-  final _userCtrl = TextEditingController();
-  final _passCtrl = TextEditingController();
-
   void _handleLogin() {
     context.read<AuthCubit>().login(
-      _urlCtrl.text,
-      _userCtrl.text,
-      _passCtrl.text,
+      context.read<AuthCubit>().urlCtrl.text,
+      context.read<AuthCubit>().userCtrl.text,
+      context.read<AuthCubit>().passCtrl.text,
     );
   }
 
@@ -69,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 32),
                         TextField(
-                          controller: _urlCtrl,
+                          controller: context.read<AuthCubit>().urlCtrl,
                           decoration: const InputDecoration(
                             labelText: "Server URL",
                             border: OutlineInputBorder(),
@@ -78,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 16),
                         TextField(
-                          controller: _userCtrl,
+                          controller: context.read<AuthCubit>().userCtrl,
                           decoration: const InputDecoration(
                             labelText: "Username",
                             border: OutlineInputBorder(),
@@ -87,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 16),
                         TextField(
-                          controller: _passCtrl,
+                          controller: context.read<AuthCubit>().passCtrl,
                           obscureText: true,
                           decoration: const InputDecoration(
                             labelText: "Password",

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'auth_state.dart';
@@ -5,6 +8,9 @@ import '../../services/auth_service.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthService _authService;
+  final TextEditingController urlCtrl = TextEditingController(text: "http://");
+  final TextEditingController userCtrl = TextEditingController();
+  final TextEditingController passCtrl = TextEditingController();
 
   AuthCubit(this._authService) : super(AuthInitial());
 
@@ -14,11 +20,13 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final session = await _authService.restoreSession();
       if (session != null) {
-        emit(AuthAuthenticated(
-          serverUrl: session['url']!,
-          accessToken: session['token']!,
-          userId: session['userId']!,
-        ));
+        emit(
+          AuthAuthenticated(
+            serverUrl: session['url']!,
+            accessToken: session['token']!,
+            userId: session['userId']!,
+          ),
+        );
       } else {
         emit(AuthUnauthenticated());
       }
@@ -31,12 +39,15 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       final result = await _authService.login(url, username, password);
-      emit(AuthAuthenticated(
-        serverUrl: result['url']!,
-        accessToken: result['token']!,
-        userId: result['userId']!,
-      ));
+      emit(
+        AuthAuthenticated(
+          serverUrl: result['url']!,
+          accessToken: result['token']!,
+          userId: result['userId']!,
+        ),
+      );
     } catch (e) {
+      log(e.toString());
       emit(AuthError(e.toString()));
       emit(AuthUnauthenticated());
     }
