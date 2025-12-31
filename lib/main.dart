@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:background_downloader/background_downloader.dart';
+import 'package:logger/logger.dart';
 
 import 'cubits/auth/auth_cubit.dart';
 import 'cubits/auth/auth_state.dart';
@@ -9,6 +10,8 @@ import 'services/auth_service.dart';
 import 'services/download_service.dart';
 import 'ui/login_screen.dart';
 import 'ui/main_screen.dart';
+
+Logger logger = Logger(); // init the logger here
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dive_prep/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
@@ -37,8 +38,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> login(String url, String username, String password) async {
     emit(AuthLoading());
+    logger.d('logging in');
+
     try {
       final result = await _authService.login(url, username, password);
+      logger.d(result);
       emit(
         AuthAuthenticated(
           serverUrl: result['url']!,
