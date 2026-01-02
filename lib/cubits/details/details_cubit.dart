@@ -14,6 +14,7 @@ class DetailsCubit extends Cubit<DetailsState> {
   String name; // widget (item) name
   bool loading = true;
   String? bgTag;
+  String? seriesID; // only for shows
   late QualityProfile selectedQuality;
   final List<QualityProfile> qualities = [
     QualityProfile("1080p High (20 Mbps)", 20000000, width: 1920),
@@ -43,12 +44,22 @@ class DetailsCubit extends Cubit<DetailsState> {
       final data = response.data;
 
       final List sourcesJson = data['MediaSources'] ?? [];
+
+      // this grabs the background tag for a Movie
       if (data['BackdropImageTags'] != null &&
           (data['BackdropImageTags'] as List).isNotEmpty) {
         bgTag = data['BackdropImageTags'][0];
       }
+      // backdrops for TV works differently
+      if (data['ParentBackdropImageTags'] != null &&
+          (data['ParentBackdropImageTags'] as List).isNotEmpty) {
+        bgTag = data['ParentBackdropImageTags'][0];
+        seriesID = data['ParentBackdropItemId'];
+      }
+
       sources = sourcesJson.map((s) => MediaSource.fromJson(s)).toList();
       loading = false;
+      logger.d("setting bgtag: $bgTag");
       emit(DetailsLoaded(bgTag));
     } catch (e) {
       logger.e("Error fetching details: $e");

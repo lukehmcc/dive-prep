@@ -1,4 +1,5 @@
 import 'package:dive_prep/cubits/details/details_cubit.dart';
+import 'package:dive_prep/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/jellyfin_models.dart';
@@ -19,6 +20,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     final AuthAuthenticated authState =
         context.read<AuthCubit>().state as AuthAuthenticated;
     final DetailsCubit detailsCubit = context.read<DetailsCubit>();
+    logger.d("bg tag: ${detailsCubit.bgTag}");
 
     return BlocBuilder<DetailsCubit, DetailsState>(
       builder: (context, state) => Scaffold(
@@ -30,7 +32,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ? FlexibleSpaceBar(
                       background: Image.network(
                         authState.getImageUrl(
-                          widget.item.id,
+                          (detailsCubit.seriesID != null)
+                              ? detailsCubit.seriesID!
+                              : widget.item.id,
                           detailsCubit.bgTag,
                           type: "Backdrop",
                         ),
